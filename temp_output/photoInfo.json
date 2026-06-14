@@ -1,0 +1,54 @@
+{
+    "DSCF1202.jpg": {
+        "compressedPath": "compressed_webp/DSCF1202.jpg.webp",
+        "size": [
+            "5053",
+            "7579"
+        ],
+        "location": "",
+        "camera": " FUJIFILM X-T5",
+        "shutterSpeed": "5.7",
+        "iso": "2000",
+        "aperture": "8.9",
+        "lens": "FUJIFILM XF16-80mmF4 R OIS WR"
+    },
+    "DSCF1701(1).jpg": {
+        "compressedPath": "compressed_webp/DSCF1701(1).jpg.webp",
+        "size": [
+            "566",
+            "1080"
+        ],
+        "location": "",
+        "camera": " FUJIFILM X-T5",
+        "shutterSpeed": "6.02",
+        "iso": "320",
+        "aperture": "4.0",
+        "lens": "FUJIFILM XF16-80mmF4 R OIS WR"
+    },
+    "DSCF1253(1).jpg": {
+        "compressedPath": "compressed_webp/DSCF1253(1).jpg.webp",
+        "size": [
+            "566",
+            "1080"
+        ],
+        "location": "",
+        "camera": " FUJIFILM X-T5",
+        "shutterSpeed": "0.0",
+        "iso": "320",
+        "aperture": "4.0",
+        "lens": "FUJIFILM XF16-80mmF4 R OIS WR"
+    },
+    "DSCF1198(1).jpg": {
+        "compressedPath": "compressed_webp/DSCF1198(1).jpg.webp",
+        "size": [
+            "566",
+            "1080"
+        ],
+        "location": "",
+        "camera": " FUJIFILM X-T5",
+        "shutterSpeed": "5.9",
+        "iso": "2000",
+        "aperture": "8.9",
+        "lens": "FUJIFILM XF16-80mmF4 R OIS WR"
+    }
+}
