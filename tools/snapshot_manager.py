@@ -20,37 +20,48 @@ from gi.repository import Gtk, Adw, Gio, Gdk, GLib
 def import_snapshot(window: Adw.ApplicationWindow, on_completion):
     invalids: list[str] = []
     # Append images that don't already exist to selected_files
-    def process_data(data: dict):
-        def is_in_list(path):
-            # i is a file
-            for i in cached_data.selected_files:
-                i: Gio.File
-                if i.get_path() == path:
+
+    # TBH this was made by chatgpt because I couldn't be bothered to code this headache myself
+    def process_data(data: dict[str, list[str]]):
+        def is_in_selected_files(path: str) -> bool:
+            for file in cached_data.selected_files:
+                file: Gio.File
+                if file.get_path() == path:
                     return True
             return False
-        for name, file in data.items():
-            # print(name)
-            # print(file["image-path"])
-            # print(file["categories"])
-            # checks if file actually exists
-            if is_in_list(name):
-                print("already exists in cached)data")
-                continue
-            if not os.path.isfile(name):
-                invalids.append(name)
-                print(f"Invalid path: {name}" )
-                continue
-            elif not is_valid_jpeg(name):
-                print(f"{name} Is not a valid jpeg")
-                invalids.append(name)
 
-            gio_file = Gio.File.new_for_path(name)
-            cached_data.selected_files.append(gio_file)
-            
-        for item in invalids:
-            print(f"to delete: {item}" )
-            data.pop(item)
-    # on_completion()
+        invalids: dict[str, list[str]] = {}
+
+        for category, image_paths in data.items():
+
+            # Create category if it doesn't exist
+            if category not in cached_data.categories_list:
+                cached_data.categories_list[category] = []
+
+            invalids[category] = []
+
+            for path in image_paths:
+
+                if not os.path.isfile(path):
+                    invalids[category].append(path)
+                    continue
+
+                if not is_valid_jpeg(path):
+                    invalids[category].append(path)
+                    continue
+
+                # Add image to selected_files if needed
+                if not is_in_selected_files(path):
+                    gio_file = Gio.File.new_for_path(path)
+                    cached_data.selected_files.append(gio_file)
+
+                # Add image to category if needed
+                if path not in cached_data.categories_list[category]:
+                    cached_data.categories_list[category].append(path)
+
+            # Remove invalid entries from imported data
+            for invalid_path in invalids[category]:
+                data[category].remove(invalid_path)
 
 
     def process_snapshot(file: Gio.File):
@@ -113,7 +124,7 @@ def export_snapshot(window: Adw.ApplicationWindow):
             
             # if os.path.isfile(file_result.get_path()): # check if the file exists already
             file_write = open(file_result.get_path(), "w")
-            json.dump(cached_data.active_snapshot, file_write, indent=2)
+            json.dump(cached_data.categories_list, file_write, indent=2)
         except Exception as error:
             print(f"{error}")
             warn_user_of_error(f"{error}")

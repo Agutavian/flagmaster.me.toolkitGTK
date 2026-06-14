@@ -409,7 +409,7 @@ def on_activate(app):
         label="Import Snapshot",
         hexpand=True
     )
-    import_snapshot_button.connect("clicked", lambda b:import_snapshot(window=win, on_completion= lambda: update_file_stack(image_list_widget)))
+    import_snapshot_button.connect("clicked", lambda b:import_snapshot(window=win, on_completion= lambda: (update_file_stack(image_list_widget), update_categories(categories_list_widget=categories_list_box, window=win))))
 
     export_snapshot_button = Gtk.Button(
         label="Export Snapshot",
