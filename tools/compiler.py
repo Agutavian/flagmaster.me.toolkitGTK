@@ -61,9 +61,8 @@ class ImageCompilerClass:
     def ImageCompiler(
         self,
         # REMOVE BEFORE COMMITTING! TODO
-        output_path: str = "/home/marco/Downloads/",
+        output_path: str,
     ):
-        # output_path = "/home/marco/Downloads/"
         # output_name = "output_name"
         """
         Output_path -> where it should be outputted
