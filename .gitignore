@@ -1,4 +1,6 @@
-
+# own project
+build/
+dist/
 
 # Visual Studio Code
 .vscode/*
