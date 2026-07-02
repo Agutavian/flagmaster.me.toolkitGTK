@@ -57,19 +57,21 @@ class DeltaImageCategoryDialog(Adw.Dialog):
             image_list_widget = Gtk.ListBox()
             image_list_widget.add_css_class("boxed-list")
             files_in_category = cached_data.get_files_from_category(category=category)
-            for image_content in uploaded_files:
-                enabled: bool = False
-                if files_in_category == None:
-                    enabled = False
-                else:
-                    if image_content in files_in_category:
-                        enabled = True
+            files_in_category = files_in_category or [] 
 
+            for image_content in uploaded_files:
+                # image_path = image_content.get_path()
+                files_in_category_paths = {
+                    f.get_path() for f in files_in_category
+                }
+
+                enabled = image_content.get_path() in files_in_category_paths
                 item_element = DeltaImageCategoryListItem(
                     file_path=image_content.get_path(),
                     checked=enabled
                     )
-                item_element.connect("toggled", _on_item_toggled)
+                print(enabled)
+                item_element.connect("toggled-checkbox", _on_item_toggled)
                 image_list_widget.append(item_element)
 
             scroll_window_widget.set_child(image_list_widget)

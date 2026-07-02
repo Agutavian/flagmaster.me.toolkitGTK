@@ -6,7 +6,7 @@ from gi.repository import Gtk, Adw, Gio, GdkPixbuf, GObject
 
 class DeltaImageCategoryListItem(Adw.ActionRow):
     __gsignals__ = {
-        "toggled": (GObject.SignalFlags.RUN_FIRST, None, (str, bool))
+        "toggled-checkbox": (GObject.SignalFlags.RUN_FIRST, None, (str, bool))
     }
     def __init__(self, file_path, checked: bool = False):
         super().__init__(
@@ -31,10 +31,10 @@ class DeltaImageCategoryListItem(Adw.ActionRow):
         self.add_prefix(image)
 
 
-        checkbox = Gtk.CheckButton()
+        checkbox = Gtk.CheckButton(active=checked)
         checkbox.connect("toggled", self._on_checkbox_toggled)
 
         self.add_suffix(checkbox)
 
     def _on_checkbox_toggled(self, checkbox):
-        self.emit("toggled", self.file_path, checkbox.get_active())
+        self.emit("toggled-checkbox", self.file_path, checkbox.get_active())
