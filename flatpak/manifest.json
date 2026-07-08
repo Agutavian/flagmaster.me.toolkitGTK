@@ -1,0 +1,30 @@
+{
+  "app-id": "me.flagmaster.toolkit",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "49",
+  "sdk": "org.gnome.Sdk",
+  "command": "flagmaster-toolkit",
+  "finish-args": [
+    "--share=network",
+    "--filesystem=home",
+    "--socket=fallback-x11",
+    "--socket=wayland",
+    "--device=dri"
+  ],
+  "modules": [
+    "python3-Pillow.json",
+    {
+      "name": "me.flagmaster.toolkit",
+      "buildsystem": "simple",
+      "build-commands": [
+        "pip3 install --prefix=/app --no-deps --no-build-isolation ."
+      ],
+      "sources": [
+        {
+          "type": "dir",
+          "path": ".."
+        }
+      ]
+    }
+  ]
+}

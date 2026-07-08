@@ -503,7 +503,10 @@ def on_activate(app):
     win.present()
 
 
+def main():
+    app = Adw.Application(application_id="me.flagmaster.toolkit")
+    app.connect("activate", on_activate)
+    app.run(None)
 
-app = Adw.Application(application_id="flagmaster.me.toolkitgtk")
-app.connect("activate", on_activate)
-app.run(None)
+if __name__ == "__main__":
+    main()
