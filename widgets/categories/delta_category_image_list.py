@@ -1,40 +1,39 @@
+import os
 import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 from gi.repository import Gtk, Adw, Gio, GdkPixbuf, GObject
+from tools.misc import get_thumbnail_async
 
 
 class DeltaImageCategoryListItem(Adw.ActionRow):
     __gsignals__ = {
         "toggled-checkbox": (GObject.SignalFlags.RUN_FIRST, None, (str, bool))
     }
-    def __init__(self, file_path, checked: bool = False):
+
+    def __init__(self, file_path: str, checked: bool = False):
+        filename = os.path.basename(file_path)
         super().__init__(
-            title=file_path.split("/")[-1],
+            title=filename,
             subtitle=file_path
         )
 
         self.file_path = file_path
-        # self.file_name = file_name
 
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-            file_path,
-            width=64,
-            height=64,
-            preserve_aspect_ratio=True
-            )
-        pixbuf = GdkPixbuf.Pixbuf.apply_embedded_orientation(pixbuf) # type: ignore
-
-        image = Gtk.Image.new_from_pixbuf(pixbuf)
-
-        image.set_pixel_size(64)
-        self.add_prefix(image)
-
+        # Placeholder image while thumbnail loads asynchronously
+        self.image_widget = Gtk.Image.new_from_icon_name("image-x-generic-symbolic")
+        self.image_widget.set_pixel_size(64)
+        self.add_prefix(self.image_widget)
 
         checkbox = Gtk.CheckButton(active=checked)
         checkbox.connect("toggled", self._on_checkbox_toggled)
-
         self.add_suffix(checkbox)
+
+        get_thumbnail_async(file_path, 64, 64, self._on_thumbnail_loaded)
+
+    def _on_thumbnail_loaded(self, pixbuf):
+        if pixbuf and self.image_widget:
+            self.image_widget.set_from_pixbuf(pixbuf)
 
     def _on_checkbox_toggled(self, checkbox):
         self.emit("toggled-checkbox", self.file_path, checkbox.get_active())
